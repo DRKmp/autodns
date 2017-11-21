@@ -9,7 +9,7 @@ Auto DNS is a tool for change the DNS servers in your dns configuration. Just ch
 5 - Ready.   
 
 # update
-v1.0 > 1.1 : Fix bugs and added more 2 dns servers
+v1.0 > 1.1 : Fix bugs and added more 5 dns servers
 
 # credits
 coded by: ~ DRKmp ~
