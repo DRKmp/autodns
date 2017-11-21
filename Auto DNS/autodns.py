@@ -4,7 +4,7 @@
 ################################
 #                              #
 #     Software: Auto DNS       #
-#     Versão  : 1.0            #
+#     Versão  : 1.1            #
 #     Cod. by : ~DRK~          #
 #                              #
 ################################
@@ -18,7 +18,7 @@ def novaLinha():
 	print('')
 
 vf = False
-version = 1.0
+version = 1.1
 credit = 'Codado por ~DRKmp~    Skype: derick-mp    Mail: derickmotta@outlook.com'
 while vf == False:
 	system("clear")
@@ -43,11 +43,13 @@ while vf == False:
 |0| - Sair 					      (Exit)
 ------------------------------------------------------------""")
 	svr = str(input('\033[1;31m'+'\nConsole >>>'+' \033[0m'))
-
+	svr = svr.strip()
 	if svr == '0' or svr == 'back' or svr == 'exit' or svr == 'close' or svr == 'sair' or svr == 'fechar':
 		system("clear")
 		break
-
+	
+	if svr == '':
+		continue
 	dnsserver(valor = svr)
 
 system("clear")
