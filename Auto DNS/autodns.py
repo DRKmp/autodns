@@ -19,7 +19,7 @@ def novaLinha():
 
 vf = False
 version = 1.1
-credit = 'Codado por ~DRKmp~    Skype: derick-mp    Mail: derickmotta@outlook.com'
+credit = 'Codado por ~DRKmp~    Skype: derick-mp    Mail: derickmotta@outlook.com \nSalve a todos os membros do #UH, tmj!'
 while vf == False:
 	system("clear")
 	novaLinha()
