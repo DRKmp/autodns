@@ -4,32 +4,53 @@
 from os import system
 from time import sleep
 
-backup = False
-
 def novaLinha():
     print('')
 
+#Função para fazer backup do arquivo de configurações DNS localizado em
+## '/etc/resolv.conf'
 def mkbak(yon):
-    if yon == 'y' or yon == 'Y':
-        system('cp /etc/resolv.conf ~/resolv.conf.bakAutoDns')
-        system("echo '#Backup gerado pelo Auto DNS' >> ~/resolv.conf.bakAutoDns")
-        print('Backup salvo na sua /home')
-        sleep(2)
-        backup = True
 
-    if yon == 'n' or yon == 'N':
-        system("clear")
-        print('Ok! Prosseguindo...')
-        sleep(2)
-        backup = True
+#Se fazer backup for igual a 'sim':
+    while True:
+        if yon == 'y' or yon == 'Y':
+            system('echo > ~/resolv.conf.bakAutoDns')
+            system('cp /etc/resolv.conf ~/resolv.conf.bakAutoDns')
+            system("echo '#Backup gerado pelo Auto DNS' >> ~/resolv.conf.bakAutoDns")
+            print('\nBackup salvo na sua /home')
+            sleep(2)
+            return False
+            continue
 
+        if yon == 'n' or yon == 'N':
+            system("clear")
+            print('Ok! Prosseguindo...')
+            sleep(2)
+            return False
+            continue
+        elif yon != 'y' or yon != 'Y':
+            print('Opção inválida! Considerando [y].')
+            yon = 'y'
+            sleep(3)
+            return False
+            continue
+        elif yon != 'n' or yon != 'N':
+            print('Opção inválida! Considerando [y].')
+            yon = 'y'
+            sleep(3)
+            return False
+            continue
+
+#Função para verificar se deseja fazer backup e setar as configurações
 def dnsserver(valor):
+#Verifica se deseja realizar backup do arquivo 'resolv.conf' em '/etc'. 
+#Chama a função 'mkbak' passando o valor de 'bak' como argumento.
+    system("clear")
+    print('-=-'*25)
+    bak = str(input('Deseja fazer um backup agora? *O backup será feito em sua /home'+'\n'+'-=-'*25 +'\n[y/n]: '))
+    mkbak(yon = bak)
 
-    if backup == False:
-        system("clear")
-        bak = str(input('Deseja fazer um backup agora? [y/n]: '))
-        mkbak(yon = bak)
-
+#Adiciona os valores conrrespondentes a opção selecionada no menu.
     if valor == '1':
         dns1 = '8.8.8.8'
         dns2 = '8.8.4.4'
@@ -64,7 +85,10 @@ def dnsserver(valor):
         dns1 = '156.154.70.1'
         dns2 = ''
         dns_n = 'Dns Advantage'
+###
 
+#Utiliza os valores recebidos nas variáveis 'dns1', 'dns2', 'dns_n' e adiciona ao arquivo de configurações DNS
+##localizado em 'etc/resolv.conf'
     system("clear")
     print('-=-'*20)
     print("""DNS escolhido: {}
@@ -79,3 +103,4 @@ IP: {} e {}""".format(dns_n, dns1, dns2))
     print('Boa navegação!')
     print('-=-'*20)
     input('Pressione <enter> para voltar ao menu principal...')
+###
