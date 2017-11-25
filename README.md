@@ -22,5 +22,5 @@ v1.0 > 1.1 : Fix bugs and added more 5 dns servers
 coded by: ~ DRKmp ~
 mail: derickmotta@outlook.com
 skype: derick-mp
-# contributos 
+# contributors 
 gabrielchiconi
