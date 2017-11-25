@@ -1,6 +1,6 @@
 # autodns
 
-Auto DNS is a tool for changing the DNS servers in `resolv.conf`. It picks from the DNS providers available in a human-readable, simplified JSON list.
+Auto DNS is a OpenSource tool for changing the DNS servers in `resolv.conf`. It picks from the DNS providers available in a human-readable, simplified JSON list.
 
 # usage
 
