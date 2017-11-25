@@ -20,6 +20,7 @@ v1.0 > 1.1 : Fix bugs and added more 5 dns servers
 # credits
 
 coded by: ~ DRKmp ~
-Contributos: gabrielchiconi
 mail: derickmotta@outlook.com
 skype: derick-mp
+# contributos 
+gabrielchiconi
