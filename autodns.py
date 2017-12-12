@@ -14,28 +14,14 @@ from os import system
 from func.autoip_title import apresentacao
 from func.autoip_change import autochange
 from sys import argv
+from servers import DnsList 
 import json
 
 def novaLinha():
 	print('')
 
-version = 1.1
-credit = 'Codado por ~DRKmp~    Skype: derick-mp    Mail: derickmotta@outlook.com\n\nContribuição do Gabriel Chiconi    gabrielchiconi.github.io\n\nSalve a todos os membros do #UniãoHacker, tmj!'
 
-class DnsOption:
-	def __init__(self, name, addr):
-		self.name, self.addr = name, addr
-
-	def __str__(self):
-		return f'{self.name}: {", ".join(self.addr)}'
-
-dns_options = []
-
-with open('dnslist.json', 'r') as dnsfile:
-	dnslist = json.load(dnsfile)
-	for opt in dnslist:
-		dns_options.append(DnsOption(opt['name'], opt['addr']))
-
+dns_servers = DnsList('dnslist.json')
 
 vf = False
 while vf == False:
@@ -43,33 +29,44 @@ while vf == False:
 	novaLinha()
 	print('\033[1;32m'+'-=-'*30)
 	apresentacao()
-	print('\nVersão: {}'.format(version))
-	print('\n'+credit)
-	print('\033[1;32m'+'-=-'*30)
+
+	with open('meta.json', 'r') as f:
+		meta = json.load(f)
+		print(f'\nVersão: {meta["version"]}')
+		print(f'Autor: {meta["author"]["name"]} - '
+			  + meta["author"]["mail"])
+		for contrib in meta["contrib"]:
+			print(f'Colaborador: {contrib["name"]} - '
+				  + contrib["mail"])
+		print('\033[1;32m'+'-=-'*30)
+
 	novaLinha()
 	print('--- '*9)
 	print('Quais servidores dns quer usar?')
 	print('--- '*9)
 
-	for i, opt in enumerate(dns_options):
+	servers = dns_servers.get_options()
+	options = []
+
+	for i, opt in enumerate(servers):
 		print(f'{i + 1}: {opt}')
+		options.append(str(i))
 
-	print('\n |0| - Sair                (Exit)')
+	print('\nSair: exit')
 
-	svr = str(input('\033[1;31m'+'\nConsole >>>'+' \033[0m'))
-	svr = svr.strip()
-	lista = ['1','2','3','4','5','6','7','8','9','10','11','12']
+	choice = input('\033[1;31m'+'\nConsole >>>'+' \033[0m').strip()
 
-	if svr in ['0', 'back', 'exit', 'close', 'sair', 'fechar']:
-		system("clear")
-		break
-	elif svr == '':
+	if not choice:
 		print('Digite um comando!')
 		sleep(2)
 		continue
 
-	if svr in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']:
-		autochange.dnsserver(valor = svr)
+	if choice.lower() in ['0', 'back', 'exit', 'close', 'sair', 'fechar']:
+		system("clear")
+		break
+
+	if choice in options:
+		autochange.dnsserver(valor=choice)
 	else:
 		print('Opção inválida!')
 		sleep(2)
