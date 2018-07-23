@@ -9,78 +9,90 @@
 #                              #
 ################################
 
+import json
 from time import sleep
 from os import system
+from sys import argv
+
 from func.autoip_title import apresentacao
 from func.autoip_change import autochange
-from sys import argv
 from servers import DnsList 
-import json
 
-def novaLinha():
-	print('')
+
+# Character sequences
+EMPTY_LINE = ''
+SEPARATOR = '-=-' * 20
+
+# Formatting
+BEGIN_GREEN = '\033[1;32m'
+BEGIN_WHITE = 
+END_COLOR = '\033[0m'
+
+# Prompt
+PS1 = BEGIN_WHITE + '\nConsole >>>' + END_COLOR
+
+# Messages
+INVALID_OPTION = 'Opção inválida!'
+NULL_OPTION = 'Digite um comando!'
+EXIT_COMMAND_HELPER = '\nSair: exit'
+
+
+def printm(*lst):
+    '''Prints each argument as a separate line and returns None'''
+    list(map(print, lst))
 
 
 dns_servers = DnsList('dnslist.json')
 
-vf = False
-while vf == False:
-	system("clear")
-	novaLinha()
-	print('\033[1;32m'+'-=-'*30)
-	apresentacao()
 
-	with open('meta.json', 'r') as f:
-		meta = json.load(f)
-		print(f'\nVersão: {meta["version"]}')
-		print(f'Autor: {meta["author"]["name"]} - '
-			  + meta["author"]["mail"])
-		for contrib in meta["contrib"]:
-			print(f'Colaborador: {contrib["name"]} - '
-				  + contrib["mail"])
-		print('\033[1;32m'+'-=-'*30)
+def main():
+    while True:
+        system("clear")
+        printm(BEGIN_GREEN, SEPARATOR)
+        apresentacao()
 
-	novaLinha()
-	print('--- '*9)
-	print('Quais servidores dns quer usar?')
-	print('--- '*9)
+        with open('meta.json', 'r') as f:
+            meta = json.load(f)
 
-	servers = dns_servers.get_options()
-	options = []
+            print(f'\nVersão: {meta["version"]}')
+            print(f'Autor: {meta["author"]["name"]} - '
+                + meta["author"]["mail"])
+            for contrib in meta["contrib"]:
+                print(f'Colaborador: {contrib["name"]} - '
+                    + contrib["mail"])
 
-	for i, opt in enumerate(servers):
-		print(f'{i + 1}: {opt}')
-		options.append(str(i))
+            print(BEGIN_GREEN + SEPARATOR)
 
-	print('\nSair: exit')
+        printm(EMPTY_LINE, SEPARATOR)
+        printm('Quais servidores DNS quer usar?', SEPARATOR)
 
-	choice = input('\033[1;31m'+'\nConsole >>>'+' \033[0m').strip()
+        servers = dns_servers.get_options()
+        options = []
 
-	if not choice:
-		print('Digite um comando!')
-		sleep(2)
-		continue
+        for i, opt in enumerate(servers):
+            print(f'{i + 1}: {opt}')
+            options.append(str(i))
 
-	if choice.lower() in ['0', 'back', 'exit', 'close', 'sair', 'fechar']:
-		system("clear")
-		break
+        print(EXIT_COMMAND_HELPER)
+        choice = input(PS1).strip()
 
-	if choice in options:
-		autochange.dnsserver(valor=choice)
-	else:
-		print('Opção inválida!')
-		sleep(2)
-		continue
+        if choice.lower() in ['0', 'exit', 'close', 'sair', 'fechar']:
+            break
 
-system("clear")
-print('\033[1;32m')
-print('-=-'*20)
-print('Ok! Irei encerrar. Um momento, por favor...')
-novaLinha()
-print('Obrigado por utilizar o Auto DNS! Até mais!')
-print('-=-'*20)
-novaLinha()
-print("Saindo...")
-print('\033[0m')
-sleep(3)
+        if choice in options:
+            autochange.dnsserver(valor=choice)
+            continue
 
+        print(INVALID_OPTION if choice else NULL_OPTION)
+        sleep(2)
+
+    system("clear")
+    printm(BEGIN_GREEN, SEPARATOR)
+    printm('Ok! Irei encerrar. Um momento, por favor...', EMPTY_LINE)
+    printm('Obrigado por utilizar o Auto DNS! Até mais!', SEPARATOR, EMPTY_LINE)
+    printm('Saindo...', END_COLOR)
+    sleep(3)
+
+
+if __name__ = '__main__':
+    main()
